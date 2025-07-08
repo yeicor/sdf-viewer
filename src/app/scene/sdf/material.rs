@@ -37,7 +37,7 @@ impl Material for SDFViewerMaterial {
         output.push_str(ToneMapping::fragment_shader_source());
         output.push_str(ColorMapping::fragment_shader_source());
         if let Some(gamma) = env_get("gamma") {
-            output.push_str(&format!("#define GAMMA_CORRECTION {}\n", gamma));
+            output.push_str(&format!("#define GAMMA_CORRECTION {gamma}\n"));
         }
         output.push_str(include_str!("material.frag"));
         output
