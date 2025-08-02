@@ -11,8 +11,8 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"] # Required for web and Android.
 
 [features]
-default = ["app", "server", "meshers", "native", "file_dialog"]
-default-android = ["app", "server", "meshers", "native", "eframe/android-native-activity"]
+default = ["app", "server", "meshers", "native", "file_dialog", "socket2"]
+default-android = ["app", "server", "meshers", "native", "eframe/android-native-activity", "socket2"]
 default-wasm = ["app", "meshers", "web"]
 
 # === ARCH-BASED FEATURES (only to select dependencies' features) ===
@@ -54,7 +54,7 @@ sdfffi = ["sdf"]
 sdfdemoffi = ["sdfdemo", "sdfffi"]
 
 # The wasm interpreters are neede for the app and the meshers, so a new feature is needed for convenience.
-wasminterpreters = ["wasmer", "wasmer-wasix", "socket2"]
+wasminterpreters = ["wasmer", "wasmer-wasix"]
 
 # ========== DEPENDENCIES ==========
 [dependencies]
