@@ -54,7 +54,7 @@ sdfffi = ["sdf"]
 sdfdemoffi = ["sdfdemo", "sdfffi"]
 
 # The wasm interpreters are neede for the app and the meshers, so a new feature is needed for convenience.
-wasminterpreters = ["wasmer", "wasmer-wasix"]
+wasminterpreters = ["wasmer", "wasmer-wasix", "socket2"]
 
 # ========== DEPENDENCIES ==========
 [dependencies]
@@ -78,8 +78,9 @@ httpdate = { version = "1.0", optional = true } # Formatting of dates
 lru = { version = "0.16", optional = true } # For caching resources
 
 # === WEBASSEMBLY COMPILERS/INTERPRETERS ===
-wasmer = { version = "6.0.0-alpha.1", default-features = false, optional = true } # Very fast WebAssembly runtime for x86_64, wasm32 and ARM64
+wasmer = { version = "6.0", default-features = false, optional = true } # Very fast WebAssembly runtime for x86_64, wasm32 and ARM64
 wasmer-wasix = { version = "0.600", default-features = false, optional = true } # WASI support for wasmer
+socket2 = { version = "=0.5.10", features = ["all"], optional = true} # https://github.com/wasmerio/wasmer/issues/5671
 
 # === CONFIGURATION & CLI ===
 clap = { version = "=3", features = ["derive"], optional = true } # CLI parser. Heavy dependency on this version because of klask.
