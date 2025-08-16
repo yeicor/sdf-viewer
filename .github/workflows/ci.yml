@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Download repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Update cargo
         run: |
           rustup update

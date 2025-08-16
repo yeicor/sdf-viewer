@@ -24,7 +24,7 @@ jobs:
     steps:
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         name: Update cargo
         run: |
@@ -118,12 +118,12 @@ jobs:
     steps:
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.update-cargo-version.outputs.BRANCH_NAME }}
       - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Update cargo
         run: |
           rustup update
