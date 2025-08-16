@@ -8,7 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER: gcc
 
 permissions:
   contents: write # Required to upload artifacts to releases (and pushing the version update)
@@ -26,10 +25,6 @@ jobs:
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         name: Checkout
         uses: actions/checkout@v4
-      - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        uses: dtolnay/rust-toolchain@v1
-        with:
-          toolchain: 1.88.0
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         uses: Swatinem/rust-cache@v2.8.0
       - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
