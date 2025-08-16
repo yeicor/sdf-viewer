@@ -6014,7 +6014,7 @@ dependencies = [
 
 [[package]]
 name = "sdf-viewer"
-version = "1.6.6"
+version = "1.6.7"
 dependencies = [
  "android_logger",
  "anyhow",
