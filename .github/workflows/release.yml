@@ -70,6 +70,7 @@ jobs:
   deploy-linux:
     name: Release
     runs-on: '${{ matrix.os }}'
+    if: '${{ matrix.target != x86_64-unknown-linux-gnu }}' # FIXME: Works on up-to-date arch, fails on ubuntu 24.04
     needs:
       - update-cargo-version
     strategy:
