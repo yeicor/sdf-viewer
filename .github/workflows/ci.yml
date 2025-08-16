@@ -22,20 +22,21 @@ jobs:
       - name: Update cargo
         run: |
           rustup update
-      - uses: Swatinem/rust-cache@v2.8.0c
+      #- uses: Swatinem/rust-cache@v2.8.0c
       
       - name: Test
         run: |
           #cargo test --lib # Test different feature combinations?
 
       - name: Integration test with sdf-viewer-go
+        shell: bash
         run: |
           set -ex
           cargo build  # Ensure app is built before running to avoid hitting the time limit
           
           # Start the app for the latest wasm generated
           # If the app did not log any errors and is running after N seconds, then the test is successful
-          xvfb-run "target/debug/${GITHUB_REPOSITORY##*/}" app url \
+          "target/debug/${GITHUB_REPOSITORY##*/}" app url \
           "https://yeicor.github.io/sdf-viewer-go/sdf-viewer-go-sdfx.wasm" 2>&1 | tee app.log &
                     
           # Kill the app that was running in the background after a while
