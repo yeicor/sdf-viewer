@@ -55,9 +55,10 @@ pub extern "C" fn bounding_box_free(ret: Box<[Vector3<f32>; 2]>) {
 }
 
 #[no_mangle]
-pub extern "C" fn sample(sdf_id: u32, p: Vector3<f32>, distance_only: bool) -> Box<SDFSample> {
+pub extern "C" fn sample(sdf_id: u32, x: f32, y: f32, z: f32, distance_only: i32) -> Box<SDFSample> {
+    let p = Vector3 { x, y, z };
     Box::new(sdf_registry(|r| r.get(&sdf_id)
-        .map(|sdf| sdf.sample(p, distance_only))
+        .map(|sdf| sdf.sample(p, distance_only != 0))
         .unwrap_or_else(|| {
             eprintln!("Failed to find SDF with ID {}", sdf_id);
             SDFSample::new(0.0, Vector3::zero())
@@ -320,7 +321,8 @@ pub extern "C" fn changed_free(ret: Box<Option<[Vector3<f32>; 2]>>) {
 }
 
 #[no_mangle]
-pub extern "C" fn normal(sdf_id: u32, p: Vector3<f32>, eps: f32) -> Box<Vector3<f32>> {
+pub extern "C" fn normal(sdf_id: u32, x: f32, y: f32, z: f32, eps: f32) -> Box<Vector3<f32>> {
+    let p = Vector3 { x, y, z };
     Box::new(sdf_registry(|r| r.get(&sdf_id)
         .map(|sdf| {
             sdf.normal(p, if eps > 0.0 { Some(eps) } else { None })
