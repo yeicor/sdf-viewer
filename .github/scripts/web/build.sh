@@ -99,7 +99,7 @@ fi
 if [[ "${OPTIMIZE}" = true ]] && command -v wasm-opt &> /dev/null; then
   echo "Optimizing wasm…"
   # to get wasm-opt:  apt/brew/dnf install binaryen
-  wasm-opt "${FINAL_WASM_PATH}" $WASM_OPT_FLAGS -o "${FINAL_WASM_PATH}"
+  wasm-opt --all-features "${FINAL_WASM_PATH}" $WASM_OPT_FLAGS -o "${FINAL_WASM_PATH}"
 fi
 
 echo "Finished ${FINAL_WASM_PATH}"

@@ -52,9 +52,9 @@ pub struct SDFViewerApp {
     // ===== LOADING =====
     /// The currently loading SDF surface, that will replace the current [`sdf`] when ready.
     /// It will be polled on update.
-    pub sdf_loading: Option<Receiver<Box<(dyn SDFSurface + Send + Sync)>>>,
+    pub sdf_loading: Option<Receiver<Box<dyn SDFSurface + Send + Sync>>>,
     /// The SDF loading manager: receives values to replace sdf_loading whenever an SDF update is detected.
-    pub sdf_loading_mgr: Option<Receiver<Receiver<Box<(dyn SDFSurface + Send + Sync)>>>>,
+    pub sdf_loading_mgr: Option<Receiver<Receiver<Box<dyn SDFSurface + Send + Sync>>>>,
 }
 
 impl SDFViewerApp {
@@ -110,13 +110,13 @@ impl SDFViewerApp {
 
     /// Updates the root SDF using a promise that will be polled on update.
     /// When the promise is ready, [`set_root_sdf`](#method.set_root_sdf) will be called internally automatically.
-    pub fn set_root_sdf_loading(&mut self, promise: Receiver<Box<(dyn SDFSurface + Send + Sync)>>) {
+    pub fn set_root_sdf_loading(&mut self, promise: Receiver<Box<dyn SDFSurface + Send + Sync>>) {
         self.sdf_loading = Some(promise);
     }
 
     /// Automatically queues updates for the root SDF using a promise that returns a promise of the updated SDF.
     /// When the promise is ready, [`set_root_sdf`](#method.set_root_sdf) will be called internally automatically.
-    pub fn set_root_sdf_loading_manager(&mut self, promise: Receiver<Receiver<Box<(dyn SDFSurface + Send + Sync)>>>) {
+    pub fn set_root_sdf_loading_manager(&mut self, promise: Receiver<Receiver<Box<dyn SDFSurface + Send + Sync>>>) {
         self.sdf_loading_mgr = Some(promise);
     }
 
