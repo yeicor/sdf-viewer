@@ -39,7 +39,9 @@ pub async fn load_sdf_wasm_send_sync(wasm_bytes: &[u8]) -> anyhow::Result<Box<dy
 
     // The module shouldn't import anything, except maybe wasix (WASI) functions.
     let import_object = if let Some(wasi_version) = get_wasi_version(&module, false) {
-        let wasi_env = WasiEnv::builder("program_name").build()?; // Customize env?
+        let mut wasi_env_builder = WasiEnv::builder("program_name");
+        wasi_env_builder.set_engine(store.engine().clone());
+        let wasi_env = wasi_env_builder.build()?; // Customize env?
         let function_env = FunctionEnv::new(&mut store, wasi_env);
         generate_import_object_from_env(&mut store, &function_env, wasi_version)
     } else {

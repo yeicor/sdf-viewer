@@ -111,8 +111,10 @@ pub trait Mesher: Debug {
 /// Meshers holds the list of currently implemented meshing algorithms.
 #[derive(clap::Parser, Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
+#[derive(Default)]
 pub enum Meshers {
     #[cfg(feature = "isosurface")]
+    #[default]
     MarchingCubes,
     #[cfg(feature = "isosurface")]
     LinearHashedMarchingCubes,
@@ -124,11 +126,6 @@ pub enum Meshers {
     DualContouringParticleBasedMinimization,
 }
 
-impl Default for Meshers {
-    fn default() -> Self {
-        Self::MarchingCubes
-    }
-}
 
 impl Mesher for Meshers {
     fn mesh(&self, s: &dyn SDFSurface, cfg: Config) -> Mesh {
