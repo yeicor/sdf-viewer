@@ -5023,9 +5023,10 @@ dependencies = [
 
 [[package]]
 name = "poll-promise"
-version = "0.1.0"
-source = "git+https://github.com/EmbarkStudios/poll-promise/?rev=49daf6c1b91be2dbfe59d41ae5547909268c6d46#49daf6c1b91be2dbfe59d41ae5547909268c6d46"
+version = "0.3.0"
+source = "git+https://github.com/EmbarkStudios/poll-promise/?rev=d5325a7b357757e136247aab88cb842fad356540#d5325a7b357757e136247aab88cb842fad356540"
 dependencies = [
+ "document-features",
  "static_assertions",
  "tokio",
 ]
@@ -6116,7 +6117,7 @@ dependencies = [
  "profiling",
  "salvo",
  "shadow-rs",
- "socket2 0.5.10",
+ "socket2 0.6.1",
  "three-d",
  "tokio",
  "tracing",
