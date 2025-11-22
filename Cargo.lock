@@ -6116,7 +6116,7 @@ dependencies = [
  "profiling",
  "salvo",
  "shadow-rs",
- "socket2 0.5.10",
+ "socket2 0.6.1",
  "three-d",
  "tokio",
  "tracing",
