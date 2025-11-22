@@ -183,7 +183,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         name: Publish the release as an artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.prepare-release.outputs.EXE_NAME }}
           path: ${{ steps.prepare-release.outputs.EXE_NAME }}
