@@ -2520,14 +2520,13 @@ dependencies = [
 
 [[package]]
 name = "filetime"
-version = "0.2.26"
+version = "0.2.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc0505cd1b6fa6580283f6bdf70a73fcf4aba1184038c90902b92b3dd0df63ed"
+checksum = "f98844151eee8917efc50bd9e8318cb963ae8b297431495d3f758616ea5c57db"
 dependencies = [
  "cfg-if",
  "libc",
  "libredox",
- "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -3663,7 +3662,7 @@ dependencies = [
  "rgb",
  "tiff",
  "zune-core 0.5.1",
- "zune-jpeg 0.5.9",
+ "zune-jpeg 0.5.10",
 ]
 
 [[package]]
@@ -9795,9 +9794,9 @@ dependencies = [
 
 [[package]]
 name = "zune-jpeg"
-version = "0.5.9"
+version = "0.5.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87c86acb70a85b2c16f071f171847d1945e8f44812630463cd14ec83900ad01c"
+checksum = "ea2db9186c0a6ad1aa7012046f3fadc8db9001691b367c510f5867f17f975752"
 dependencies = [
  "zune-core 0.5.1",
 ]
