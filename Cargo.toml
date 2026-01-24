@@ -73,7 +73,7 @@ ehttp = { version = "0.6", optional = true } # Very simple HTTP client that supp
 
 # === SERVER ===
 salvo = { version = "0.88", optional = true } # Simple HTTP server
-notify-debouncer-full = { version = "0.6", default-features = false, optional = true } # Watch for file changes
+notify-debouncer-full = { version = "0.7", default-features = false, optional = true } # Watch for file changes
 httpdate = { version = "1.0", optional = true } # Formatting of dates
 lru = { version = "0.16", optional = true } # For caching resources
 
