@@ -79,7 +79,7 @@ lru = { version = "0.16", optional = true } # For caching resources
 
 # === WEBASSEMBLY COMPILERS/INTERPRETERS ===
 wasmer = { version = "7.0", default-features = false, optional = true } # Very fast WebAssembly runtime for x86_64, wasm32 and ARM64
-wasmer-wasix = { version = "0.601", default-features = false, optional = true } # WASI support for wasmer
+wasmer-wasix = { version = "0.700", default-features = false, optional = true } # WASI support for wasmer
 socket2 = { version = "=0.6.2", features = ["all"], optional = true} # https://github.com/wasmerio/wasmer/issues/5671
 
 # === CONFIGURATION & CLI ===
