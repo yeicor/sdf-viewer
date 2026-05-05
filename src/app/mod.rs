@@ -2,8 +2,7 @@ use std::rc::Rc;
 use std::sync::Arc;
 
 use eframe::egui::collapsing_header::CollapsingState;
-use eframe::egui::panel::{Side, TopBottomSide};
-use eframe::egui::{Context, Frame, ProgressBar, ScrollArea, ThemePreference, Ui, Vec2};
+use eframe::egui::{Context, Frame, MenuBar, ProgressBar, ScrollArea, ThemePreference, Ui, Vec2};
 use eframe::{egui};
 use image::EncodableLayout;
 use tokio::sync::mpsc::error::TryRecvError;
@@ -238,16 +237,16 @@ impl SDFViewerApp {
         }
     }
 
-    fn ui_menu_bar(&mut self, ctx: &Context) {
+    fn ui_menu_bar(&mut self, _ctx: &Context, ui: &mut Ui) {
         // Top panel for the menu bar
-        egui::TopBottomPanel::new(TopBottomSide::Top, egui::Id::new("top"))
-            .show(ctx, |ui| {
+        egui::Panel::top(egui::Id::new("top"))
+            .show_inside(ui, |ui| {
                 #[cfg(target_os = "android")]
                 {
                     ui.add_space(48f32); // HACK: Add some space to avoid the status bar
                 }
                 ScrollArea::new([true, true]).show(ui, |ui| {
-                    egui::menu::bar(ui, |ui| {
+                    MenuBar::new().ui(ui, |ui| {
                         self.app_settings.show_window_button(ui, "⚙ Settings");
                         #[cfg(feature = "server")]
                         self.server_settings.show_window_button(ui, "🌐 Server");
@@ -288,16 +287,16 @@ impl SDFViewerApp {
         }
     }
 
-    fn ui_left_panel(&mut self, ctx: &Context) {
+    fn ui_left_panel(&mut self, _ctx: &Context, ui: &mut Ui) {
         // Main side panel for configuration.
-        egui::SidePanel::new(Side::Left, egui::Id::new("left"))
-            .show(ctx, |ui| {
+        egui::Panel::left(egui::Id::new("left"))
+            .show_inside(ui, |ui| {
                 // Configuration panel for the parameters of the selected SDF (this must be placed first to reserve space, resizable)
                 // FIXME: SDF Hierarchy rendered over this panel...
                 if let Some(ref selected_sdf) = self.selected_params_sdf {
-                    egui::TopBottomPanel::new(TopBottomSide::Bottom, egui::Id::new("parameters"))
+                    egui::Panel::bottom(egui::Id::new("parameters"))
                         .resizable(true)
-                        .default_height(200.0)
+                        .default_size(200.0)
                         .frame(Frame::default().outer_margin(0.0).inner_margin(0.0))
                         .show_inside(ui, |ui| {
                             ui.heading(format!("Parameters for {}", selected_sdf.name()));
@@ -332,23 +331,23 @@ impl SDFViewerApp {
             });
     }
 
-    fn ui_bottom_panel(&mut self, ctx: &Context) {
+    fn ui_bottom_panel(&mut self, _ctx: &Context, ui: &mut Ui) {
         // Bottom panel, containing the progress bar if applicable.
-        egui::TopBottomPanel::new(TopBottomSide::Bottom, egui::Id::new("bottom"))
+        egui::Panel::bottom(egui::Id::new("bottom"))
             .frame(Frame::default().inner_margin(0.0))
-            .min_height(0.0) // Hide when unused
-            .show(ctx, |ui| {
+            .min_size(0.0) // Hide when unused
+            .show_inside(ui, |ui| {
                 if let Some((progress, text)) = self.progress.as_ref() {
                     ui.add(ProgressBar::new(*progress).text(text.clone()).animate(true));
                 }
             });
     }
 
-    fn ui_central_panel(&mut self, ctx: &Context) {
+    fn ui_central_panel(&mut self, _ctx: &Context, ui: &mut Ui) {
         // 3D Scene main content
         egui::CentralPanel::default()
-            .frame(Frame::none().inner_margin(0.0))
-            .show(ctx, |ui| {
+            .frame(Frame::NONE.inner_margin(0.0))
+            .show_inside(ui, |ui| {
                 Frame::canvas(ui.style())
                     .show(ui, |ui| {
                         self.ui_three_d_scene_widget(ui);
@@ -437,21 +436,22 @@ impl SDFViewerApp {
 }
 
 impl eframe::App for &mut SDFViewerApp {
-    fn update(&mut self, ctx: &Context, frame: &mut eframe::Frame) {
-        SDFViewerApp::update(self, ctx, frame)
+    fn ui(&mut self, ui: &mut Ui, frame: &mut eframe::Frame) {
+        SDFViewerApp::ui(self, ui, frame)
     }
 }
 
 impl eframe::App for SDFViewerApp {
     #[profiling::function]
-    fn update(&mut self, ctx: &Context, _frame: &mut eframe::Frame) {
-        self.update_poll_loading_sdf(ctx);
-        self.ui_menu_bar(ctx);
-        self.ui_settings_windows(ctx);
-        self.ui_exported_model_window(ctx);
-        self.ui_left_panel(ctx);
-        self.ui_bottom_panel(ctx);
-        self.ui_central_panel(ctx);
+    fn ui(&mut self, ui: &mut Ui, _frame: &mut eframe::Frame) {
+        let ctx = ui.ctx().clone();
+        self.update_poll_loading_sdf(&ctx);
+        self.ui_menu_bar(&ctx, ui);
+        self.ui_settings_windows(&ctx);
+        self.ui_exported_model_window(&ctx);
+        self.ui_left_panel(&ctx, ui);
+        self.ui_bottom_panel(&ctx, ui);
+        self.ui_central_panel(&ctx, ui);
         // ctx.request_repaint(); // Uncomment to always render at maximum framerate instead of lazy renders
     }
 }
