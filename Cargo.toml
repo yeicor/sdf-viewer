@@ -11,11 +11,12 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"] # Required for web and Android.
 
 [features]
-default = ["app", "server", "meshers", "native", "file_dialog", "socket2"]
+default = ["app", "server", "meshers", "native", "desktop", "file_dialog", "socket2"]
 default-android = ["app", "server", "meshers", "native", "eframe/android-native-activity", "socket2"]
 default-wasm = ["app", "meshers", "web"]
 
 # === ARCH-BASED FEATURES (only to select dependencies' features) ===
+desktop = ["eframe/accesskit"]
 web = ["wasmer/js-default", "wasmer-wasix/js-default"]
 native = ["wasmer/sys-default", "wasmer-wasix/sys-default", "native_no_wasmer"]
 native_no_wasmer = ["poll-promise/tokio"] # Android (Termux) server-only builds can't compile wasmer (and don't need it).
@@ -59,8 +60,8 @@ wasminterpreters = ["wasmer", "wasmer-wasix"]
 # ========== DEPENDENCIES ==========
 [dependencies]
 # === RENDERING ===
-three-d = { version = "=0.18", default-features = false, features = ["egui-gui"], optional = true }
-eframe = { version = "=0.29", features = ["persistence", "glow"], optional = true }  # Same as three-d (egui)
+three-d = { version = "=0.19.0", default-features = false, features = ["egui-gui"], optional = true }
+eframe = { version = "=0.34", default-features = false, features = ["default_fonts", "persistence", "glow", "wayland", "web_screen_reader", "x11"], optional = true }  # Same as three-d (egui)
 winit = { version = "=0.30", optional = true } # Same as eframe
 image = { version = "0.25", optional = true }  # Required for image loading
 
@@ -107,7 +108,7 @@ tracing-subscriber = { version = "0.3", optional = true } # For logging
 
 # === WEB ===
 [target.'cfg(target_arch = "wasm32")'.dependencies] # Web dependencies
-wasm-bindgen = { version = "0.2", optional = true } # Core bindings
+wasm-bindgen = { version = "=0.2.114", optional = true } # Core bindings (same as wasmer)
 wasm-bindgen-futures = { version = "0.4", optional = true } # Core bindings
 tokio = { version = "1.42", features = ["rt", "macros", "sync"], optional = true } # Asynchronous runtime
 web-sys = { version = "0.3", optional = true } # Core bindings

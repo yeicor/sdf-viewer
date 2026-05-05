@@ -45,7 +45,7 @@ impl<P: clap::Parser + Clone + Default + PartialEq> SettingsWindow<P> {
             Self::Configuring { previous, .. } => (false, previous.clone()),
         };
         ui.add_enabled_ui(enabled, |ui| {
-            let settings_button = egui::menu::menu_button(ui, window_name, |_ui| {});
+            let settings_button = ui.menu_button(window_name, |_ui| {});
             if settings_button.response.clicked() {
                 static LOC_SETTINGS: OnceCell<Localization> = OnceCell::new();
                 let loc_settings = LOC_SETTINGS.get_or_init(Localization::default);
@@ -78,7 +78,7 @@ impl<P: clap::Parser + Clone + Default + PartialEq> SettingsWindow<P> {
                     None => return None,
                 };
 
-                // # The main settings widget
+                // # The main settings widget (errors here usually mean klask needs to update egui)
                 <&mut AppState>::ui(editing, ui);
 
                 // # The cancel and apply buttons
